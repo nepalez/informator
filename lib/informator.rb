@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require "equalizer"
+
 require_relative "informator/event"
 require_relative "informator/subscriber"
 require_relative "informator/reporter"

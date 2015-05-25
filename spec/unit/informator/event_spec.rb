@@ -8,7 +8,6 @@ describe Informator::Event do
 
   describe ".new" do
 
-    it { is_expected.to be_kind_of Comparable }
     it { is_expected.to be_frozen }
 
   end # describe .new

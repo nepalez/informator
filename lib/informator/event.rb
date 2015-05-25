@@ -17,7 +17,7 @@ module Informator
   #
   class Event
 
-    include Comparable
+    include Equalizer.new(:type, :data)
 
     # @!attribute [r] type
     #
@@ -53,26 +53,6 @@ module Informator
       @messages = messages.flatten.map(&:to_s)
       @data     = data
       freeze
-    end
-
-    # Compares the event to another one by their types and data
-    #
-    # @param [Object] other
-    #
-    # @return [Boolean]
-    #
-    def ==(other)
-      other.is_a?(self.class) && other.value.eql?(value)
-    end
-
-    protected
-
-    # Returns value to compare events by
-    #
-    # @return [Array]
-    #
-    def value
-      [type, data]
     end
 
   end # class Event

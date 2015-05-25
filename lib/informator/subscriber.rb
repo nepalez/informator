@@ -21,7 +21,7 @@ module Informator
   #
   class Subscriber
 
-    include Comparable
+    include Equalizer.new(:object, :callback)
 
     # @!attribute [r] object
     #
@@ -61,26 +61,6 @@ module Informator
       object.public_send callback, event
 
       event
-    end
-
-    # Compares the subscriber to another one by their objects and callbacks
-    #
-    # @param [Object] other
-    #
-    # @return [Boolean]
-    #
-    def ==(other)
-      other.instance_of?(self.class) ? other.value.eql?(value) : false
-    end
-
-    protected
-
-    # Returns value to compare subscribers by
-    #
-    # @return [Array]
-    #
-    def value
-      [object, callback]
     end
 
   end # class Subscriber
