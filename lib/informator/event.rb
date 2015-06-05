@@ -10,7 +10,7 @@ module Informator
   # between various objects into unified format.
   #
   # @example
-  #   event = Event.new :success, "bingo!", foo: :bar
+  #   event = Event[:success, "bingo!", foo: :bar]
   #   # => #<Event @type=:success, @messages=["bingo!"], @data={ :foo => :bar }>
   #   event.frozen?
   #   # => true
@@ -38,7 +38,7 @@ module Informator
     attr_reader :messages
 
     # @!scope class
-    # @!method new(type, messages, data)
+    # @!method [](type, messages, data)
     # Builds the event
     #
     # @param [#to_sym] type
@@ -46,6 +46,9 @@ module Informator
     # @param [Hash] data
     #
     # @return [Informator::Event]
+    def self.[](*args)
+      new(*args)
+    end
 
     # @private
     def initialize(type, *messages, **data)

@@ -12,6 +12,17 @@ describe Informator::Event do
 
   end # describe .new
 
+  describe ".[]" do
+
+    before { allow(described_class).to receive(:new) }
+
+    it "builds the event" do
+      expect(described_class).to receive(:new).with(:foo, :bar, :baz)
+      described_class[:foo, :bar, :baz]
+    end
+
+  end # describe .new
+
   describe "#type" do
 
     subject { event.type }
