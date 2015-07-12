@@ -5,7 +5,7 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(%r{^spec/.+_spec\.rb$})
 
   watch(%r{^lib/(.+)\.rb}) do |m|
-    "spec/unit/#{ m[1] }_spec.rb"
+    "spec/unit/#{m[1]}_spec.rb"
   end
 
   watch("lib/informator.rb") { "spec" }

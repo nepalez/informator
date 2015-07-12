@@ -59,7 +59,7 @@ module Informator
 
     def publish(subscribers)
       event = events.shift
-      subscribers.each { |subscriber| subscriber.notify event }
+      subscribers.each { |subscriber| subscriber.notify(event) }
     end
 
   end # class Reporter

@@ -53,9 +53,9 @@ module Informator
 
     # @private
     def initialize(type, *messages, **attributes)
-      @type     = type.to_sym
-      @messages = messages.flatten.map(&:to_s)
-      @attributes     = attributes
+      @type       = type.to_sym
+      @messages   = messages.flatten.map(&:to_s)
+      @attributes = attributes
       IceNine.deep_freeze(self)
     end
 
