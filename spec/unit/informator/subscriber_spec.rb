@@ -66,7 +66,7 @@ describe Informator::Subscriber do
 
     end # context
 
-    context "to event with other data" do
+    context "to event with other attributes" do
 
       let(:other) { described_class.new object, :other }
       it { is_expected.to eql false }

@@ -19,7 +19,7 @@ The [wisper]-inspired tiny implementation of publish/subscribe design pattern.
 
 The implementation differs from the original wisper's approach in the following aspects:
 
-* Unlike `Wisper::Publisher` that calls listener methods depending on the event, the `Informator` uses the same listener's callback for sending all events. Instead it wraps data to `Informator::Event` container and uses its as the argument for the callback.
+* Unlike `Wisper::Publisher` that calls listener methods depending on the event, the `Informator` uses the same listener's callback for sending all events. Instead it wraps attributes to `Informator::Event` container and uses its as the argument for the callback.
 
 * The `Informator` has two separate methods - `#remember` and `#publish`. The first one is used to build and collect events, while the second one publishes all unpublished events at once (and clears the list of events to be published).
 
@@ -44,7 +44,7 @@ The `Informator` module API defines 4 instance methods:
 Except for the `Informator` the module defines public class `Informator::Event` for immutable events, that has 3 attributes:
 
 * `#type` for symbolic type of the event
-* `#data` for hash of data, carried by the event
+* `#attributes` for hash of attributes, carried by the event
 * `#messages` for array of human-readable messages, describing the event
 
 The event instance is build by the `#remember`, `#publish` or `#publish!` methods and is sent to listeners by either `#publish` or `#publish!`. When sending an event, the informator just calls the listeners callback, defined by `#subscribe` method, and gives it a corresponding event object as the only argument.
@@ -81,8 +81,8 @@ result = service.call
 # The listener received success: ["for now all is fine"]
 # The listener received error: ["OMG!"]
 # => [
-#      #<Informator::Event @type=:success @data={ foo: :bar } @messages=["for now all is fine"]>,
-#      #<Informator::Event @type=:error @data={ bar: :baz } @messages=["OMG!"]>
+#      #<Informator::Event @type=:success @attributes={ foo: :bar } @messages=["for now all is fine"]>,
+#      #<Informator::Event @type=:error @attributes={ bar: :baz } @messages=["OMG!"]>
 #    ]
 
 ```

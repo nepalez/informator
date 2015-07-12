@@ -27,7 +27,7 @@ module Informator
     self
   end
 
-  # @!method remember(type, messages, data)
+  # @!method remember(type, messages, attributes)
   # Builds and stores the event waiting for being published
   #
   # @param (see Informator::Event.new)
@@ -40,7 +40,7 @@ module Informator
     self
   end
 
-  # @overload publish(type, messages, data)
+  # @overload publish(type, messages, attributes)
   #   Builds the event and then publishes all unpublished events
   #
   #   @param (see #remember)
@@ -57,7 +57,7 @@ module Informator
 
   # The same as `publish` except for it throws `:published` afterwards
   #
-  # @overload publish(type, messages, data)
+  # @overload publish(type, messages, attributes)
   #   Builds the event and then publishes all unpublished events
   #
   #   @param (see #remember)

@@ -1,5 +1,9 @@
 ## Prepared for the next version
 
+### Changed (backward-incompatible)
+
+* Renamed event-carried `data` to `attributes` (nepalez)
+
 ### Internal
 
 * Switched to `ice_nine` gem to freezing objects deeply (nepalez)

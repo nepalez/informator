@@ -2,22 +2,23 @@
 
 module Informator
 
-  # Class Event provides an immutable container for hash of some data, to
+  # Class Event provides an immutable container for hash of some attributes, to
   # which a type is attached. It also contains an array of human-readable
   # messages describing the event.
   #
-  # The primary goal of events is folding data to be returned and/or sent
+  # The primary goal of events is folding attributes to be returned and/or sent
   # between various objects into unified format.
   #
   # @example
   #   event = Event[:success, "bingo!", foo: :bar]
-  #   # => #<Event @type=:success, @messages=["bingo!"], @data={ :foo => :bar }>
+  #   # <Event @type=:success @messages=["bingo!"] @attributes={ :foo => :bar }>
+  #
   #   event.frozen?
   #   # => true
   #
   class Event
 
-    include Equalizer.new(:type, :data)
+    include Equalizer.new(:type, :attributes)
 
     # @!attribute [r] type
     #
@@ -25,11 +26,11 @@ module Informator
     #
     attr_reader :type
 
-    # @!attribute [r] data
+    # @!attribute [r] attributes
     #
-    # @return [Hash] the event-specific data
+    # @return [Hash] the event-specific attributes
     #
-    attr_reader :data
+    attr_reader :attributes
 
     # @!attribute [r] messages
     #
@@ -38,12 +39,12 @@ module Informator
     attr_reader :messages
 
     # @!scope class
-    # @!method [](type, messages, data)
+    # @!method [](type, messages, attributes)
     # Builds the event
     #
     # @param [#to_sym] type
     # @param [#to_s, Array<#to_s>] messages
-    # @param [Hash] data
+    # @param [Hash] attributes
     #
     # @return [Informator::Event]
     def self.[](*args)
@@ -51,10 +52,10 @@ module Informator
     end
 
     # @private
-    def initialize(type, *messages, **data)
+    def initialize(type, *messages, **attributes)
       @type     = type.to_sym
       @messages = messages.flatten.map(&:to_s)
-      @data     = data
+      @attributes     = attributes
       IceNine.deep_freeze(self)
     end
 

@@ -11,11 +11,11 @@ module Informator
   #   subscriber.frozen? # => true
   #
   #   event  = Informator::Event.new :success
-  #   # => #<Event @type=:success @data={} @messages=[]>
+  #   # => #<Event @type=:success @attributes={} @messages=[]>
   #
   #   subscriber.notify event
   #   object.event
-  #   # => #<Event @type=:success @data={} @messages=[]>
+  #   # => #<Event @type=:success @attributes={} @messages=[]>
   #
   # @api private
   #

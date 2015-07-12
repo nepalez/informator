@@ -8,7 +8,6 @@ describe Informator do
   let(:callback) { :on_received }
   let(:listener) do
     double(
-      receive: nil,
       callback => nil,
       foo: nil,
       bar: nil,
@@ -74,7 +73,7 @@ describe Informator do
         expect(event).to be_kind_of Informator::Event
         expect(event.type).to eq :alert
         expect(event.messages).to eql %w(foo)
-        expect(event.data).to eql(bar: :baz)
+        expect(event.attributes).to eql(bar: :baz)
       end
 
       informator.publish :alert, "foo", bar: :baz

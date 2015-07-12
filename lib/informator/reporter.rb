@@ -9,7 +9,7 @@ module Informator
   #   reporter.events # => []
   #
   #   reporter.remember :success
-  #   reporter.events # => [#<Event @type=:success @data={} @messages=[]>]
+  #   reporter.events # => [#<Event @type=:success @attributes={} @messages=[]>]
   #
   #   # this will call subscriber.notify for any event
   #   reporter.notify subscriber
@@ -30,7 +30,7 @@ module Informator
     #   the list of registered events that havent'b been published yet
     attr_reader :events
 
-    # @!method remember(type, messages, data)
+    # @!method remember(type, messages, attributes)
     # Registers the event to be published to subscribers
     #
     # @param (see Informator::Event.new)

@@ -37,18 +37,18 @@ describe Informator::Event do
 
   end # describe #messages
 
-  describe "#data" do
+  describe "#attributes" do
 
-    subject { event.data }
+    subject { event.attributes }
     it { is_expected.to eq(baz: :qux) }
 
-  end # describe #data
+  end # describe #attributes
 
   describe "#==" do
 
     subject { event == other }
 
-    context "to event with the same type and data" do
+    context "to event with the same type and attributes" do
 
       let(:other) { Class.new(described_class).new type, baz: :qux }
       it { is_expected.to eql true }
@@ -62,7 +62,7 @@ describe Informator::Event do
 
     end # context
 
-    context "to event with other data" do
+    context "to event with other attributes" do
 
       let(:other) { described_class.new :success, baz: "qux" }
       it { is_expected.to eql false }
