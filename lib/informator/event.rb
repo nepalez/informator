@@ -55,7 +55,7 @@ module Informator
       @type     = type.to_sym
       @messages = messages.flatten.map(&:to_s)
       @data     = data
-      freeze
+      IceNine.deep_freeze(self)
     end
 
   end # class Event

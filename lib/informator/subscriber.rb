@@ -48,7 +48,7 @@ module Informator
     def initialize(object, callback = :receive)
       @object   = object
       @callback = callback.to_sym
-      freeze
+      IceNine.deep_freeze(self)
     end
 
     # Sends the event to the subscriber object via its callback

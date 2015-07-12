@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require "ice_nine"
 require "equalizer"
 
 require_relative "informator/event"

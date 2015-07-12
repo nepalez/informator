@@ -22,7 +22,7 @@ module Informator
     # @private
     def initialize
       @events = []
-      freeze
+      freeze # freezes the instance, but left events mutable!
     end
 
     # @!attribute [r] events

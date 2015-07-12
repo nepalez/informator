@@ -7,7 +7,14 @@ describe Informator do
   let(:klass)    { Class.new { include Informator } }
   let(:callback) { :on_received }
   let(:listener) do
-    double receive: nil, callback => nil, foo: nil, bar: nil, receive: nil
+    double(
+      receive: nil,
+      callback => nil,
+      foo: nil,
+      bar: nil,
+      receive: nil,
+      freeze: nil
+    )
   end
 
   before { informator.subscribe listener, callback }
@@ -129,7 +136,7 @@ describe Informator do
     end
 
     it "throws :published" do
-      expect { informator.publish! }.to raise_error
+      expect { informator.publish! }.to raise_error(ArgumentError)
       expect { catch(:published) { informator.publish! } }.not_to raise_error
     end
 

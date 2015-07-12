@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.author      = "Andrew Kozin"
   gem.email       = "andrew.kozin@gmail.com"
   gem.homepage    = "https://github.com/nepalez/informator"
-  gem.summary     = "Implementation of subscribe/publish design pattern"
+  gem.summary     = "Implementation of publish/subscribe design pattern"
   gem.license     = "MIT"
 
   gem.files            = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
@@ -19,7 +19,8 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = "~> 2.1"
 
   gem.add_runtime_dependency "equalizer", "~> 0.0"
+  gem.add_runtime_dependency "ice_nine", "~> 0.11"
 
-  gem.add_development_dependency "hexx-rspec", "~> 0.4"
+  gem.add_development_dependency "hexx-rspec", "~> 0.5"
 
 end # Gem::Specification

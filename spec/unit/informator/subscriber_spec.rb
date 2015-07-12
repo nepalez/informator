@@ -4,7 +4,7 @@ describe Informator::Subscriber do
 
   let(:callback) { "foo" }
   let(:event)    { double }
-  let(:object)   { double callback.to_sym => callback }
+  let(:object)   { double callback.to_sym => callback, freeze: nil }
 
   subject(:subscriber) { described_class.new object, callback }
 
@@ -61,7 +61,7 @@ describe Informator::Subscriber do
 
     context "to event with another object" do
 
-      let(:other) { described_class.new object.dup, callback }
+      let(:other) { double freeze: nil }
       it { is_expected.to eql false }
 
     end # context
