@@ -2,4 +2,6 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "hexx-suit", "~> 2.2", group: :metrics if RUBY_ENGINE == "ruby"
+group :metrics do
+  gem "hexx-suit", "~> 2.3" if RUBY_ENGINE == "ruby" && RUBY_VERSION >= "2.1"
+end
