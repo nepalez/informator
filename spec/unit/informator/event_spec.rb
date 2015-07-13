@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require "timecop"
+
 describe Informator::Event do
 
   let!(:pub_class) { Informator::Foo = Class.new                     }
@@ -45,6 +47,18 @@ describe Informator::Event do
     it { is_expected.to be_frozen      }
 
   end # describe #attributes
+
+  describe "#time" do
+
+    subject { event.time }
+
+    it "returns the time of event" do
+      Timecop.freeze do
+        expect(subject).to eql Time.now
+      end
+    end
+
+  end # describe #time
 
   describe "#message" do
 

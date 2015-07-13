@@ -49,9 +49,10 @@ The `Informator::Publisher` class describes immutable publishers with 6 instance
 * `#publish` to create and publish an event to all `#subscribers`.
 * `#publish!` that calls `#publish` and then throws `:published` exception.
 
-The `Informator::Event` class describes immutable events with 4 instance methods:
+The `Informator::Event` class describes immutable events with 5 instance methods:
 
 * `#publisher` for the source of the event.
+* `#time` for event creation time.
 * `#name` for symbolic name of the event.
 * `#attributes` for hash of attributes, carried by the event.
 * `#message` for the human-readable description of the event.

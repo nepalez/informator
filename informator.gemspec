@@ -24,5 +24,6 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "hexx-rspec", "~> 0.5"
   gem.add_development_dependency "equalizer", "~> 0.0"
+  gem.add_development_dependency "timecop", "~> 0.7"
 
 end # Gem::Specification

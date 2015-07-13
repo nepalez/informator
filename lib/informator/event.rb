@@ -26,6 +26,12 @@ module Informator
     #
     attr_reader :attributes
 
+    # @!attribute [r] time
+    #
+    # @return [Time] The time the event was created
+    #
+    attr_reader :time
+
     # @!scope class
     # @!method new(publisher, name, attributes)
     # Builds the event
@@ -43,6 +49,7 @@ module Informator
       @publisher  = publisher
       @name       = name.to_sym
       @attributes = Hash[attributes]
+      @time       = Time.now
       IceNine.deep_freeze(self)
     end
 
