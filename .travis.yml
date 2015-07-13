@@ -4,13 +4,19 @@ bundler_args: --without metrics
 cache:        bundler
 script:       bundle exec rake test:coverage:run
 rvm:
+  - '1.9.3'
+  - '2.0'
   - '2.1'
   - '2.2'
   - ruby-head
+  - rbx-2 --1.9
   - rbx-2 --2.1
+  - rbx-head
+  - jruby
   - jruby-9.0.0.0.pre1
   - jruby-head
 matrix:
   allow_failures:
     - rvm: ruby-head
+    - rvm: rbx-head
     - rvm: jruby-head

@@ -2,80 +2,70 @@
 
 describe Informator::Event do
 
-  subject(:event) { described_class.new type, :foo, [:bar], baz: :qux }
-
-  let(:type) { "success" }
+  let!(:pub_class) { Informator::Foo = Class.new                     }
+  let(:publisher)  { pub_class.new                                   }
+  let(:name)       { "success"                                       }
+  let(:attributes) { { foo: :FOO }                                   }
+  let(:event)      { described_class.new publisher, name, attributes }
 
   describe ".new" do
 
+    subject { event }
+
     it { is_expected.to be_frozen }
 
-  end # describe .new
-
-  describe ".[]" do
-
-    before { allow(described_class).to receive(:new) }
-
-    it "builds the event" do
-      expect(described_class).to receive(:new).with(:foo, :bar, :baz)
-      described_class[:foo, :bar, :baz]
+    it "doesn't freeze attributes" do
+      expect { subject }.not_to change { attributes.frozen? }
     end
 
   end # describe .new
 
-  describe "#type" do
+  describe "#publisher" do
 
-    subject { event.type }
-    it { is_expected.to eql type.to_sym }
+    subject { event.publisher }
 
-  end # describe #type
+    it { is_expected.to eql publisher }
+    it { is_expected.to be_frozen     }
 
-  describe "#messages" do
+  end # describe #publisher
 
-    subject { event.messages }
-    it { is_expected.to eql %w(foo bar) }
+  describe "#name" do
 
-  end # describe #messages
+    subject { event.name }
+
+    it { is_expected.to eql name.to_sym }
+
+  end # describe #name
 
   describe "#attributes" do
 
     subject { event.attributes }
-    it { is_expected.to eq(baz: :qux) }
+
+    it { is_expected.to eql attributes }
+    it { is_expected.to be_frozen      }
 
   end # describe #attributes
 
-  describe "#==" do
+  describe "#message" do
 
-    subject { event == other }
+    subject { event.message }
 
-    context "to event with the same type and attributes" do
+    it do
+      is_expected
+        .to eql "translation missing: en.informator.informator/foo.success"
+    end
 
-      let(:other) { Class.new(described_class).new type, baz: :qux }
-      it { is_expected.to eql true }
+    it 'gives event attributes to translator' do
+      expect(I18n).to receive(:translate) do |_, opts|
+        expect(opts.merge(attributes)).to eql opts
+      end
+      subject
+    end
 
-    end # context
+    it { is_expected.to be_frozen }
 
-    context "to event with another type" do
+  end # describe #message
 
-      let(:other) { described_class.new :error, baz: :qux }
-      it { is_expected.to eql false }
-
-    end # context
-
-    context "to event with other attributes" do
-
-      let(:other) { described_class.new :success, baz: "qux" }
-      it { is_expected.to eql false }
-
-    end # context
-
-    context "to non-event" do
-
-      let(:other) { :foo }
-      it { is_expected.to eql false }
-
-    end # context
-
-  end # describe #==
+  after { Informator.send :remove_const, :Foo }
 
 end # describe Informator::Event

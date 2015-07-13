@@ -2,36 +2,29 @@
 
 describe Informator::Subscriber do
 
-  let(:callback) { "foo" }
-  let(:event)    { double }
-  let(:object)   { double callback.to_sym => callback, freeze: nil }
-
-  subject(:subscriber) { described_class.new object, callback }
+  let(:callback)   { "foo"                                    }
+  let(:event)      { double                                   }
+  let(:listener)   { double callback => callback, freeze: nil }
+  let(:subscriber) { described_class.new listener, callback   }
 
   describe ".new" do
 
+    subject { subscriber }
     it { is_expected.to be_frozen }
 
   end # describe .new
 
-  describe "#object" do
+  describe "#listener" do
 
-    subject { subscriber.object }
-    it { is_expected.to eql object }
+    subject { subscriber.listener }
+    it { is_expected.to eql listener }
 
-  end # describe #object
+  end # describe #listener
 
   describe "#callback" do
 
     subject { subscriber.callback }
     it { is_expected.to eql callback.to_sym }
-
-    context "when callback isn't defined" do
-
-      let(:subscriber) { described_class.new object }
-      it { is_expected.to eql :receive }
-
-    end # context
 
   end # describe #callback
 
@@ -39,47 +32,13 @@ describe Informator::Subscriber do
 
     subject { subscriber.notify event }
 
-    it "sends event to object via callback" do
-      expect(object).to receive(callback).with(event)
+    it "sends event to listener via callback" do
+      expect(listener).to receive(callback).with(event)
       subject
     end
 
     it { is_expected.to eql event }
 
   end # describe #notify
-
-  describe "#==" do
-
-    subject { subscriber == other }
-
-    context "to subscriber with the same object and callback" do
-
-      let(:other) { subscriber.dup }
-      it { is_expected.to eql true }
-
-    end # context
-
-    context "to event with another object" do
-
-      let(:other) { double freeze: nil }
-      it { is_expected.to eql false }
-
-    end # context
-
-    context "to event with other attributes" do
-
-      let(:other) { described_class.new object, :other }
-      it { is_expected.to eql false }
-
-    end # context
-
-    context "to non-subscriber" do
-
-      let(:other) { :foo }
-      it { is_expected.to eql false }
-
-    end # context
-
-  end # describe #==
 
 end # describe Informator::Subscriber

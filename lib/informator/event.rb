@@ -2,61 +2,57 @@
 
 module Informator
 
-  # Class Event provides an immutable container for hash of some attributes, to
-  # which a type is attached. It also contains an array of human-readable
-  # messages describing the event.
+  # Describes events provided by publishers and being sent to their subscribers
   #
-  # The primary goal of events is folding attributes to be returned and/or sent
-  # between various objects into unified format.
-  #
-  # @example
-  #   event = Event[:success, "bingo!", foo: :bar]
-  #   # <Event @type=:success @messages=["bingo!"] @attributes={ :foo => :bar }>
-  #
-  #   event.frozen?
-  #   # => true
+  # @api public
   #
   class Event
 
-    include Equalizer.new(:type, :attributes)
+    # @!attribute [r] publisher
+    #
+    # @return [Informator::Publisher] The source of the event
+    #
+    attr_reader :publisher
 
-    # @!attribute [r] type
+    # @!attribute [r] name
     #
-    # @return [Symbol] the type of the event
+    # @return [Symbol] The name of the event
     #
-    attr_reader :type
+    attr_reader :name
 
     # @!attribute [r] attributes
     #
-    # @return [Hash] the event-specific attributes
+    # @return [Hash] The event-specific attributes
     #
     attr_reader :attributes
 
-    # @!attribute [r] messages
-    #
-    # @return [Array<String>] human-readable messages, describing the event
-    #
-    attr_reader :messages
-
     # @!scope class
-    # @!method [](type, messages, attributes)
+    # @!method new(publisher, name, attributes)
     # Builds the event
     #
-    # @param [#to_sym] type
-    # @param [#to_s, Array<#to_s>] messages
+    # @param [Informator::Publisher]
+    # @param [#to_sym] name
     # @param [Hash] attributes
     #
     # @return [Informator::Event]
-    def self.[](*args)
-      new(*args)
-    end
+    #
+    # @api private
 
     # @private
-    def initialize(type, *messages, **attributes)
-      @type       = type.to_sym
-      @messages   = messages.flatten.map(&:to_s)
-      @attributes = attributes
+    def initialize(publisher, name, attributes)
+      @publisher  = publisher
+      @name       = name.to_sym
+      @attributes = Hash[attributes]
       IceNine.deep_freeze(self)
+    end
+
+    # The human-readable message for the event
+    #
+    # @return [String]
+    #
+    def message
+      scope = [:informator, Inflecto.underscore(publisher.class)]
+      I18n.translate(name, attributes.merge(scope: scope)).freeze
     end
 
   end # class Event
