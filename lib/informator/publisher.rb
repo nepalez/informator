@@ -89,6 +89,15 @@ module Informator
     end
     alias_method :eql?, :==
 
+    # Human-readable description of the publisher
+    #
+    # @return [String]
+    #
+    def inspect
+      "#<#{self.class} @attributes=#{attributes}>"
+    end
+    alias_method :to_s, :inspect
+
   end # class Publisher
 
 end # module Informator

@@ -83,6 +83,20 @@ describe Informator::Publisher do
 
   end # describe #==
 
+  describe "#inspect" do
+
+    subject { publisher.inspect }
+    it { is_expected.to eql "#<Informator::Foo @attributes=#{attributes}>" }
+
+  end # describe #inspect
+
+  describe "#to_s" do
+
+    subject { publisher.to_s }
+    it { is_expected.to eql publisher.inspect }
+
+  end # describe #to_s
+
   describe "#subscribers" do
 
     subject { publisher.subscribers }
