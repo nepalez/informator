@@ -145,7 +145,8 @@ describe Informator::Publisher do
 
   describe "#publish!" do
 
-    subject { publisher.subscribe(listener, callback).publish! name, attributes }
+    let(:caller) { publisher.subscribe(listener, callback) }
+    subject { caller.publish! name, attributes }
 
     it "sends event to subscribers" do
       expect(listener).to receive(callback).with(event)

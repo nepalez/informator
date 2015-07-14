@@ -58,8 +58,8 @@ module Informator
     #
     # @return [Informator::Event] The published event
     #
-    def publish(type, arguments)
-      event = Event.new(self, type, arguments)
+    def publish(name, arguments)
+      event = Event.new(self, name, arguments)
       subscribers.each { |subscriber| subscriber.notify(event) }
       event
     end
@@ -69,12 +69,12 @@ module Informator
     #
     # @param (see #publish)
     #
-    # @return (see #publish!)
+    # @return (see #publish)
     #
     # @raise [UncaughtThrowError] The exception to be catched later
     #
-    def publish!(type, arguments)
-      event = publish(type, arguments)
+    def publish!(name, arguments)
+      event = publish(name, arguments)
       throw :published, event
     end
 

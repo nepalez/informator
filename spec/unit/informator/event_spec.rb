@@ -70,7 +70,7 @@ describe Informator::Event do
         .to eql "translation missing: en.informator.informator/foo.success"
     end
 
-    it 'gives event attributes to translator' do
+    it "sends event attributes to translator" do
       expect(I18n).to receive(:translate) do |_, opts|
         expect(opts.merge(attributes)).to eql opts
       end

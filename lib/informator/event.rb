@@ -38,7 +38,7 @@ module Informator
     # @!method new(publisher, name, attributes)
     # Builds the event
     #
-    # @param [Informator::Publisher]
+    # @param [Informator::Publisher] publisher
     # @param [#to_sym] name
     # @param [Hash] attributes
     #
