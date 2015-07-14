@@ -2,6 +2,7 @@
 
 require "inflecto"
 require "ice_nine"
+require "equalizer"
 
 require_relative "informator/event"
 require_relative "informator/subscriber"

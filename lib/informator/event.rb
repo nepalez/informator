@@ -8,6 +8,8 @@ module Informator
   #
   class Event
 
+    include Equalizer.new(:publisher, :name, :attributes, :time)
+
     # @!attribute [r] publisher
     #
     # @return [Informator::Publisher] The source of the event
@@ -45,7 +47,7 @@ module Informator
     # @api private
 
     # @private
-    def initialize(publisher, name, attributes)
+    def initialize(publisher, name, attributes = {})
       @publisher  = publisher
       @name       = name.to_sym
       @attributes = Hash[attributes]

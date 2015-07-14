@@ -24,6 +24,6 @@ task :mutant do
 end
 
 desc "Exhort all evils"
-task :mutant do
+task :exhort do
   system "bundle exec mutant -r informator --use rspec Informator*"
 end

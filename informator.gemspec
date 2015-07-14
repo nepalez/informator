@@ -21,9 +21,9 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "i18n", "~> 0.7"
   gem.add_runtime_dependency "ice_nine", "~> 0.11"
   gem.add_runtime_dependency "inflecto", "~> 0.0"
+  gem.add_runtime_dependency "equalizer", "~> 0.0"
 
   gem.add_development_dependency "hexx-rspec", "~> 0.5"
-  gem.add_development_dependency "equalizer", "~> 0.0"
   gem.add_development_dependency "timecop", "~> 0.7"
 
 end # Gem::Specification

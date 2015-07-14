@@ -8,6 +8,8 @@ module Informator
   #
   class Publisher
 
+    include Comparable
+
     # @!attribute [r] subscribers
     #
     # @return [Array<Informator::Subscriber>] The list of subscribers
@@ -75,6 +77,17 @@ module Informator
       event = publish(type, arguments)
       throw :published, event
     end
+
+    # Treats two publishers of the same class with the same attributes as equal
+    #
+    # @param [Object] other
+    #
+    # @return [Boolean]
+    #
+    def ==(other)
+      other.instance_of?(self.class) && attributes.eql?(other.attributes)
+    end
+    alias_method :eql?, :==
 
   end # class Publisher
 

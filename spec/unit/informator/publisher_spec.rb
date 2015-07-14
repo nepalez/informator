@@ -1,17 +1,11 @@
 # encoding: utf-8
 
-require "equalizer"
+require "timecop"
 
 describe Informator::Publisher do
 
-  before do
-    Informator::Subscriber
-      .send :include, Equalizer.new(:listener, :callback)
-    Informator::Event
-      .send :include, Equalizer.new(:publisher, :name, :attributes)
-    Informator::Publisher
-      .send :include, Equalizer.new(:attributes)
-  end
+  before { Timecop.freeze } # to allow time-dependent events being equal
+  after  { Timecop.return }
 
   let(:pub_class)  { Informator::Foo = Class.new(described_class)      }
   let(:publisher)  { pub_class.new attributes                          }
@@ -50,6 +44,44 @@ describe Informator::Publisher do
     end # context
 
   end # describe #attributes
+
+  describe "#==" do
+
+    subject { publisher == other }
+
+    context "with the same types and attributes" do
+
+      let(:other) { publisher.subscribe(listener, callback) }
+      it { is_expected.to eql true }
+
+    end # context
+
+    context "with different types" do
+
+      let(:other) { described_class.new(attributes) }
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with different attributes" do
+
+      let(:other) { pub_class.new }
+      it { is_expected.to eql false }
+
+    end # context
+
+  end # describe #==
+
+  describe "#eql?" do
+
+    subject { publisher == other }
+    let(:other) { publisher.subscribe(listener, callback) }
+
+    it "aliases #==" do
+      expect(subject).to eql true
+    end
+
+  end # describe #==
 
   describe "#subscribers" do
 

@@ -28,6 +28,33 @@ describe Informator::Subscriber do
 
   end # describe #callback
 
+  describe "#==" do
+
+    subject { subscriber == other }
+
+    context "with the same listeners and callbacks" do
+
+      let(:other) { described_class.new listener, callback }
+      it { is_expected.to eql true }
+
+    end # context
+
+    context "with different listeners" do
+
+      let(:other) { described_class.new double(freeze: nil), callback }
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with different callbacks" do
+
+      let(:other) { described_class.new listener, "other" }
+      it { is_expected.to eql false }
+
+    end # context
+
+  end # describe #==
+
   describe "#notify" do
 
     subject { subscriber.notify event }

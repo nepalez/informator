@@ -10,6 +10,9 @@ describe Informator::Event do
   let(:attributes) { { foo: :FOO }                                   }
   let(:event)      { described_class.new publisher, name, attributes }
 
+  before { Timecop.freeze }
+  after  { Timecop.return }
+
   describe ".new" do
 
     subject { event }
@@ -53,9 +56,7 @@ describe Informator::Event do
     subject { event.time }
 
     it "returns the time of event" do
-      Timecop.freeze do
-        expect(subject).to eql Time.now
-      end
+      expect(subject).to eql Time.now
     end
 
   end # describe #time
@@ -79,6 +80,55 @@ describe Informator::Event do
     it { is_expected.to be_frozen }
 
   end # describe #message
+
+  describe "#==" do
+
+    subject { event == other }
+
+    context "with the same publisher, times, names and attributes" do
+
+      let(:other) { described_class.new publisher, name, attributes }
+      it { is_expected.to eql true }
+
+    end # context
+
+    context "with different publishers" do
+
+      let(:new_publisher) { Informator::Publisher.new }
+
+      let(:other) { described_class.new new_publisher, name, attributes }
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with different times" do
+
+      let!(:event) { described_class.new publisher, name, attributes }
+      let!(:other) do
+        new_time = Time.now + 1
+        Timecop.travel(new_time)
+        described_class.new publisher, name, attributes
+      end
+
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with different names" do
+
+      let(:other) { described_class.new publisher, "other", attributes }
+      it { is_expected.to eql false }
+
+    end # context
+
+    context "with different attributes" do
+
+      let(:other) { described_class.new publisher, "other" }
+      it { is_expected.to eql false }
+
+    end # context
+
+  end # describe #==
 
   after { Informator.send :remove_const, :Foo }
 

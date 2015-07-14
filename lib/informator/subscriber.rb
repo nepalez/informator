@@ -8,6 +8,8 @@ module Informator
   #
   class Subscriber
 
+    include Equalizer.new(:listener, :callback)
+
     # @!attribute [r] listener
     #
     # @return [Object] The listener to send events to
