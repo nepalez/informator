@@ -57,6 +57,8 @@ The `Informator::Event` class describes immutable events with 5 instance methods
 * `#attributes` for hash of attributes, carried by the event.
 * `#message` for the human-readable description of the event.
 
+Both publishers and events instances are comparable (respond to `==` and `eql?`).
+
 Synopsis
 --------
 
@@ -79,13 +81,13 @@ end
 Provide translations for events:
 
 ```yaml
-# config/locales/en.yml
+# config/locales/fr.yml
 ---
-en:
+fr:
   informator:
     my_publisher:
-      success: "%{exclamation}, %{name}!"
-      error: "%{name}, %{exclamation}!"
+      success: "éditeur dit: %{exclamation}, succès!"
+      error: "éditeur dit: faute, %{exclamation}!"
 ```
 
 Provide a listener with a callback method:
@@ -113,7 +115,7 @@ MyPublisher
 #      @name=:success,
 #      @attributes={ exclamation: "Wow" }
 #    >
-# => "Wow, success!"
+# => "éditeur dit: Wow, succès!"
 ```
 
 ```ruby
@@ -126,7 +128,36 @@ MyPublisher
 #      @name=:success,
 #      @attributes={ exclamation: "OMG" }
 #    >
-# => "error, OMG!"
+# => "éditeur dit: faute, OMG!"
+```
+
+Testing
+-------
+
+Use `:publishing_event` shared examples (defined at `informator/rspec`) to specify publisher.
+
+```ruby
+require "informator/rspec"
+
+describe MyPublisher do
+
+  let(:publisher) { described_class.new(attributes)     }
+  let(:listener)  { double callback => nil, freeze: nil }
+  let(:callback)  { :call                               }
+
+  subject { publisher.subscribe(listener, callback).call }
+
+  it_behaves_like :publishing_event do
+    # configurable context
+    let(:attributes) { { luck: true } }
+    let(:locale)     { :fr            } # :en by default
+
+    # configurable expectations (can be skipped)
+    let(:event_name)       { :success                    }
+    let(:event_attributes) { { exclamation: "Wow" }      }
+    let(:event_message)    { "éditeur dit: Wow, succès!" }
+  end
+end
 ```
 
 Installation

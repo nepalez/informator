@@ -1,0 +1,6 @@
+---
+en:
+  informator:
+    informator/foo:
+      success: "publisher said: %{exclamation}!"
+      error: "publisher said: %{exclamation}!"
