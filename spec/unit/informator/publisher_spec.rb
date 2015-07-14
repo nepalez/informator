@@ -55,7 +55,7 @@ describe Informator::Publisher do
 
     subject { publisher.subscribers }
 
-    it { is_expected.to eql []    }
+    it { is_expected.to eql Set.new }
     it { is_expected.to be_frozen }
 
   end # describe #attributes
@@ -70,13 +70,16 @@ describe Informator::Publisher do
       expect(subject.attributes).to eql attributes
     end
 
-    it "registers the subscriber" do
-      expect(subject.subscribers).to eql [subscriber]
+    it "registers new subscriber" do
+      other = Informator::Subscriber.new listener, "other"
+
+      updated = subject.subscribe(listener, "other")
+      expect(updated.subscribers).to contain_exactly subscriber, other
     end
 
-    it "preserves subscribers" do
+    it "skips registered subscriber" do
       updated = subject.subscribe(listener, callback)
-      expect(updated.subscribers).to eql [subscriber, subscriber]
+      expect(updated.subscribers).to contain_exactly subscriber
     end
 
   end # describe #subscribe

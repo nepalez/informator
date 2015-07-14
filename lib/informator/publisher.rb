@@ -31,7 +31,7 @@ module Informator
     # @private
     def initialize(attributes = {})
       @attributes  = Hash[attributes]
-      @subscribers = block_given? ? yield : []
+      @subscribers = block_given? ? yield : Set.new
       IceNine.deep_freeze(self)
     end
 
@@ -46,7 +46,7 @@ module Informator
     #
     def subscribe(listener, callback)
       subscriber = Subscriber.new(listener, callback)
-      self.class.new(attributes) { subscribers + [subscriber] }
+      self.class.new(attributes) { subscribers | [subscriber] }
     end
 
     # Creates the immutable event and sends it to all subscribers
